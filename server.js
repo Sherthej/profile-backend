@@ -8,7 +8,14 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'https://profile-frontend-omega.vercel.app',
+  methods: ['GET','POST','PUT','DELETE'],
+  credentials: true,
+}));
+
 app.use(express.json());
 
 app.use('/api/contacts', contactRoutes);
