@@ -1,11 +1,17 @@
-const Contact = require('../models/contact');
+const Contact = require('../models/contact'); // Mongoose model
 
-exports.createContact = async (req, res) => {
+const createContact = async (req, res) => {
   try {
-    const contact = new Contact(req.body);
-    await contact.save();
-    res.status(201).json(contact);
+    const { name, email, contact, address } = req.body;
+
+    const newContact = new Contact({ name, email, contact, address });
+    await newContact.save();
+
+    res.status(201).json({ message: 'Contact saved successfully!' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Error saving contact:', error.message);
+    res.status(500).json({ error: 'Failed to save contact' });
   }
 };
+
+module.exports = { createContact };
